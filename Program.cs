@@ -6,7 +6,7 @@ class Program
         Console.WriteLine("Mission startet...");
         var körper = Himmelskörper.Parse(args);
         körper.ForceValidate();
-        Console.WriteLine(körper.ToString());
+        Console.WriteLine(körper);
     }
 }
 
