@@ -13,13 +13,57 @@ class Program
 
 class Himmelskörper
 {
-    public required string Name { get; set; }
-    public required uint KatalogNummer { get; set; }
+    public required string Name
+    {
+        get;
+        set => field = value.Trim();
+    }
+    public required uint KatalogNummer
+    {
+        get;
+        set
+        {
+            if (value >= 100000)
+                throw new ArgumentException("Katalognummer ist ungültig.");
+            field = value;
+        }
+    }
     public required HimmelskörperTyp Typ { get; set; }
-    public Spektralklasse? Spectral { get; set; }
-    public float? ScheinbareHelligkeit { get; set; }
+    public Spektralklasse? Spectral
+    {
+        get;
+        set
+        {
+            if (value.HasValue && Typ != HimmelskörperTyp.Stern)
+                throw new ArgumentException("Nur Sterne können eine Spektralklasse haben.");
+            if (value == null && Typ == HimmelskörperTyp.Stern)
+                throw new ArgumentException("Sterne müssen eine Spektralklasse haben.");
+            field = value;
+        }
+    }
+    public float? ScheinbareHelligkeit
+    {
+        get;
+        set
+        {
+            if (value.HasValue && Typ != HimmelskörperTyp.Stern)
+                throw new ArgumentException("Nur Sterne können eine Scheinbare Helligkeit haben.");
+            if (value == null && Typ == HimmelskörperTyp.Stern)
+                throw new ArgumentException("Sterne müssen eine Scheinbare Helligkeit haben.");
+            field = value;
+        }
+    }
     public float? Umlaufzeit { get; set; }
-    public uint? ZentralkörperKatalogNummber { get; set; }
+    public uint? ZentralkörperKatalogNummber
+    {
+        get;
+        set
+        {
+            if (value >= 100000)
+                throw new ArgumentException("Katalognummer ist ungültig.");
+            field = value;
+        }
+    }
     private Himmelskörper() {}
     public Himmelskörper(string name, uint id, float erdJahre, uint zentralKörper)
     {
